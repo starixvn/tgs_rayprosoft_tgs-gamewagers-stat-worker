@@ -1,0 +1,19 @@
+﻿namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
+public record GameWagerDataCommand(
+	Guid GameProviderId,
+	int GameId,
+	Guid ResellerId,
+	Guid LicenseeId,
+	Guid BrandId,
+	string PlayerCode,
+	string ExternalRoundId,
+	string ExternalWagerId,
+	string ExternalGameId,
+	decimal CurrencyRatio,
+	decimal Bet,
+	decimal ValidBet,
+	decimal Settle,
+	decimal Commission,
+	decimal Turnover,
+	decimal WinLoss,
+	DateTimeOffset ClosedOn);
