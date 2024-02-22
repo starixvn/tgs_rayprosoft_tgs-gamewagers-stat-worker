@@ -131,7 +131,7 @@ internal class GameWagerStatChannel(
 			if (reader.TryRead(out var command))
 			{
 				using var activity = _ActivitySource.StartActivity(
-					"ExpChannel handle exchange",
+					"GameWagerStatChannel handle exchange",
 					 ActivityKind.Internal,
 					parentContext: default);
 				try
