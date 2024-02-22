@@ -1,18 +1,22 @@
-﻿using StackExchange.Redis;
+﻿using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using Tgs.GameWagers.Stat.Worker.Core;
 
 namespace Tgs.GameWagers.Stat.Worker.Repositories;
 
-internal class GameWagerStatCloseBiddingRepository(IDatabase database) : IGameWagerStatCloseBiddingRepository
+internal class GameWagerStatCloseBiddingRepository(
+	IOptions<GameWagersStatWorkerSettingsOptions> options,
+	IDatabase database) : IGameWagerStatCloseBiddingRepository
 {
-	public async ValueTask<string> BidAsync(string playerCode, string token, CancellationToken cancellationToken = default)
+	private readonly GameWagersStatWorkerSettingsOptions _gameWagersStatWorkerSettings = options.Value;
+	public async ValueTask<string> BiddingAsync(string playerCode, string token, CancellationToken cancellationToken = default)
 	{
 		var redisKey = GetKey(playerCode);
 
 		var isGot = await database.StringSetAsync(
 			key: GetKey(playerCode),
 			value: token,
-			expiry: TimeSpan.FromMinutes(10D),
+			expiry: TimeSpan.FromSeconds(_gameWagersStatWorkerSettings.BiddingExpiry),
 			when: When.NotExists)
 			.ConfigureAwait(false);
 

@@ -2,7 +2,7 @@
 
 public interface IGameWagerStatCloseBiddingRepository
 {
-	ValueTask<string> BidAsync(string playerCode, string token, CancellationToken cancellationToken = default);
+	ValueTask<string> BiddingAsync(string playerCode, string token, CancellationToken cancellationToken = default);
 
 	ValueTask<string?> GetTokenAsync(string playerCode, CancellationToken cancellationToken = default);
 

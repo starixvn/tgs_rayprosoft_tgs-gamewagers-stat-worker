@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 
 using Tgs.ServiceUtility;
@@ -9,6 +10,7 @@ namespace Tgs.GameWagers.Stat.Worker.Core;
 
 internal class GameWagerStatChannel(
 	ILogger<GameWagerStatChannel> logger,
+	IOptions<GameWagersStatWorkerSettingsOptions> options,
 	ICommandService<GameWagerStatCloseCommand> service,
 	string playerCode) : IDisposable, IAsyncDisposable
 {
@@ -24,7 +26,7 @@ internal class GameWagerStatChannel(
 	private readonly CancellationTokenSource _cancellationTokenSource = new();
 
 	private Task? _backgroundTask;
-	private int _expiry = 610;
+	private int _expiry = options.Value.ChannelExpiry;
 	private Timer? _timer;
 	private bool _disposedValue;
 

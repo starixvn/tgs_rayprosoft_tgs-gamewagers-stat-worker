@@ -12,7 +12,7 @@ internal class GameWagerBiddingCommandService(
 {
 	public async ValueTask ExecuteAsync(GameWagerBiddingCommand command, CancellationToken cancellationToken = default)
 	{
-		var token = await biddingRepository.BidAsync(
+		var token = await biddingRepository.BiddingAsync(
 			playerCode: command.PlayerCode,
 			token: Environment.MachineName,
 			cancellationToken: cancellationToken)

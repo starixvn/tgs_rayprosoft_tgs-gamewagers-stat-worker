@@ -58,8 +58,12 @@ builder.Services.AddGameWagersStatWorker(
 	{
 		var configuration = sp.GetRequiredService<IConfiguration>();
 		options.ConnectionString = configuration.GetConnectionString("Redis")!;
+	},
+	(options, sp) =>
+	{
+		var configuration = sp.GetRequiredService<IConfiguration>();
+		configuration.GetSection("GameWagersStatWorkerSettings").Bind(options);
 	});
-;
 
 builder.Services
 	.AddKeyedSingleton("Nats", (sp, _) => new NatsConnection(NatsOpts.Default with
