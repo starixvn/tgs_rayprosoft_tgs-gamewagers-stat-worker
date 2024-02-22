@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
 		.Configure(redisOptions)
 		.Services
 		.AddSingleton<RedisConnectionManager>()
+		.AddSingleton(TimeProvider.System)
 		.AddGameWagersStatWorkerCore()
 		.AddGameWagersStatWorkerRepositories(
 			dbContextOptions: dbContextOptions,
