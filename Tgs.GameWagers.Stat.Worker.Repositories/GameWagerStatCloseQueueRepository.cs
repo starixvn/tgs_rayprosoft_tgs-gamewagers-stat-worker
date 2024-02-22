@@ -27,5 +27,5 @@ internal class GameWagerStatCloseQueueRepository(IDatabase database) : IGameWage
 		=> await database.ListRemoveAsync(GetKey(playerCode), JsonSerializer.Serialize(source), 0).ConfigureAwait(false);
 
 	private static string GetKey(string playerCode)
-		=> string.Concat(typeof(GameWagerStatCloseQueueRepository).Namespace!.Replace(".", "-").ToLower(), ":", "pending", ":", playerCode);
+		=> string.Concat(typeof(GameWagerStatCloseQueueRepository).Namespace!.Replace(".", "-").ToLower(), ":", "queue", ":", playerCode);
 }
