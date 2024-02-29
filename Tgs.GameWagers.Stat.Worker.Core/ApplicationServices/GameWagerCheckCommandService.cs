@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Tgs.GameWagers.Client;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
@@ -11,48 +13,73 @@ namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 internal class GameWagerCheckCommandService(
 	ILogger<GameWagerCheckCommandService> logger,
 	TimeProvider timeProvider,
+	IGameWagersClient gameWagersClient,
 	ICommandService<GameWagerDataCommand> service) : ICommandService<GameWagerCheckCommand>
 {
-	public ValueTask ExecuteAsync(GameWagerCheckCommand command, CancellationToken cancellationToken = default)
+	public async ValueTask ExecuteAsync(GameWagerCheckCommand command, CancellationToken cancellationToken = default)
 	{
+
+		var info = await gameWagersClient.GetAsync(
+			gameProviderId: command.GameProviderId,
+			gameId: command.GameId,
+			walletId: command.WalletId,
+			externalWagerId: command.ExternalWagerId,
+			createdOn: command.CreatedOn,
+			cancellationToken: cancellationToken)
+			.ConfigureAwait(false);
+
+		if (info == null)
+		{
+			logger.LogError("LogOn:{logOn} Mesaage:This game wager cannot be found.({command})",
+				DateTime.Now.ToString("o"),
+				command);
+
+			throw new ArgumentOutOfRangeException($"This game wager cannot be found.({JsonSerializer.Serialize(command)})");
+		}
+
 		var currentTime = timeProvider.GetUtcNow();
-		var difference = currentTime.Subtract(command.ClosedOn);
+		var difference = currentTime.Subtract(info.ClosedOn);
 
 		if (difference.TotalDays > 45)
 		{
-			logger.LogWarning("LogOn:{logOn} Mesaage:The settlement time of this game platform exceeds the current time by 45 days.({command})",
+			logger.LogWarning("LogOn:{logOn} Mesaage:This game wager({wagerId}) has been settled for more than 45 days.({totalDays})",
 				DateTime.Now.ToString("o"),
-				command);
-			return ValueTask.CompletedTask;
+				info.WagerId,
+				difference.TotalDays);
+
+			throw new Exception($"This game bet({info.WagerId}) has been settled for more than 45 days.({difference.TotalDays})");
 		}
 
-		if (command.ClosedState != GameRecord.Handle.Common.Protos.ClosedStates.Closed)
+		if (info.ClosedState != GameWagers.Common.Enums.ClosedState.Closed)
 		{
-			logger.LogWarning("LogOn:{logOn} Mesaage:This Game Wager has not been settled yet.({command})",
+			logger.LogWarning("LogOn:{logOn} Mesaage:This game wager{wagerId} has not been settled yet.({closedState})",
 				DateTime.Now.ToString("o"),
-				command);
-			return ValueTask.CompletedTask;
+				info.WagerId,
+				info.ClosedState);
+
+			throw new Exception($"This game wager{info.WagerId} has not been settled yet.({info.ClosedState})");
 		}
 
-		return service.ExecuteAsync(
-			command: new GameWagerDataCommand(
-				GameProviderId: command.GameProviderId,
-				GameId: command.GameId,
-				ResellerId: command.ResellerId,
-				LicenseeId: command.LicenseeId,
-				BrandId: command.BrandId,
-				PlayerCode: command.PlayerCode,
-				ExternalRoundId: command.ExternalRoundId,
-				ExternalWagerId: command.ExternalWagerId,
-				ExternalGameId: command.ExternalGameId,
-				CurrencyRatio: command.CurrencyRatio,
-				Bet: command.Bet,
-				ValidBet: command.ValidBet,
-				Settle: command.Settle,
-				Commission: command.Commission,
-				Turnover: command.Turnover,
-				WinLoss: command.WinLoss,
-				ClosedOn: command.ClosedOn),
-			cancellationToken: cancellationToken);
+		await service.ExecuteAsync(
+		   command: new GameWagerDataCommand(
+			   GameProviderId: info.GameProviderId,
+			   GameId: info.GameId,
+			   ResellerId: info.ResellerId,
+			   LicenseeId: info.LicenseeId,
+			   BrandId: info.BrandId,
+			   PlayerCode: info.PlayerCode,
+			   WalletId: info.WalletId,
+			   ExternalRoundId: info.ExternalRoundId,
+			   ExternalWagerId: info.ExternalWagerId,
+			   CurrencyRatio: info.CurrencyRatio,
+			   Bet: info.Bet,
+			   ValidBet: info.ValidBet,
+			   Settle: info.Settle,
+			   Commission: info.Commission,
+			   Turnover: info.Turnover,
+			   WinLoss: info.WinLoss,
+			   ClosedOn: info.ClosedOn),
+		   cancellationToken: cancellationToken)
+		   .ConfigureAwait(false);
 	}
 }

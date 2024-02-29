@@ -8,7 +8,7 @@ using OpenTelemetry.Metrics;
 
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Tgs.GameRecord.Handle.Common;
+using Tgs.GameWagers.Firsts.Common;
 using Tgs.GameWagers.Stat.Worker.Messages;
 using Tgs.MessageQueue.Nats.Serializers;
 
@@ -63,6 +63,12 @@ builder.Services.AddGameWagersStatWorker(
 	{
 		var configuration = sp.GetRequiredService<IConfiguration>();
 		configuration.GetSection("GameWagersStatWorkerSettings").Bind(options);
+	})
+	.AddGameWagersClient(
+	(options, sp) =>
+	{
+		var configuration = sp.GetRequiredService<IConfiguration>();
+		options.BaseUrl = configuration.GetValue<Uri>("GameWagersStatWorkerConnectionStrings:GameWagersClientBaseUrl")!;
 	});
 
 builder.Services
@@ -74,7 +80,7 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<GameWagerMessageHandler>(NatsConst.GameWagerSettleFirstDataPublish, typeof(GameWagerMessageHandler).FullName!.ToLower())
+	.AddHandler<GameWagerMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatWorkerPublish, typeof(GameWagerMessageHandler).FullName!.ToLower())
 	.AddHandler<GameWagerStatMessageHandler>($"gamewagers.stat.worker.{Environment.MachineName}", typeof(GameWagerStatMessageHandler).FullName!.ToLower()))
 	.AddNatsGlobPatternExchange("*");
 

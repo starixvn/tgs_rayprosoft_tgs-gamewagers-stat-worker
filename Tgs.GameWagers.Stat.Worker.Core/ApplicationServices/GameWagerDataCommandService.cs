@@ -17,12 +17,15 @@ internal class GameWagerDataCommandService(
 		var statOn = utnsil.GetStatOn(command.ClosedOn);
 
 		var add = new GameWagerStatCloseAdd(
+			GameProviderId: command.GameProviderId,
+			GameId: command.GameId,
 			ResellerId: command.ResellerId,
 			LicenseeId: command.LicenseeId,
 			BrandId: command.BrandId,
 			PlayerCode: command.PlayerCode,
-			GameProviderId: command.GameProviderId,
-			GameId: command.GameId,
+			WalletId: command.WalletId,
+			ExternalRoundId: command.ExternalRoundId,
+			ExternalWagerId: command.ExternalWagerId,
 			StatOn: statOn,
 			Bet: command.Bet,
 			ValidBet: command.ValidBet,
