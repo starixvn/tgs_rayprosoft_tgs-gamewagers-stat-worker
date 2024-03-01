@@ -4,4 +4,4 @@ public record GameWagerCheckCommand(
 	int GameId,
 	Guid WalletId,
 	string ExternalWagerId,
-		DateTimeOffset CreatedOn);
+	DateTimeOffset CreatedOn);
