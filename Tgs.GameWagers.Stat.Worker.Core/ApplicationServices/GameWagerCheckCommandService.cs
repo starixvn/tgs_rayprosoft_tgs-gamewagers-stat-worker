@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Tgs.GameWagers.Client;
+using Tgs.GameWagers.Common;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
@@ -13,15 +14,25 @@ internal class GameWagerCheckCommandService(
 {
 	public async ValueTask ExecuteAsync(GameWagerCheckCommand command, CancellationToken cancellationToken = default)
 	{
-
-		var info = await gameWagersClient.GetAsync(
-			gameProviderId: command.GameProviderId,
-			gameId: command.GameId,
-			walletId: command.WalletId,
-			externalWagerId: command.ExternalWagerId,
-			createdOn: command.CreatedOn,
-			cancellationToken: cancellationToken)
-			.ConfigureAwait(false);
+		GameWagerFirstInfo? info;
+		try
+		{
+			info = await gameWagersClient.GameWagerFirstGetAsync(
+			   gameProviderId: command.GameProviderId,
+			   gameId: command.GameId,
+			   walletId: command.WalletId,
+			   externalWagerId: command.ExternalWagerId,
+			   createdOn: command.CreatedOn,
+			   cancellationToken: cancellationToken)
+			   .ConfigureAwait(false);
+		}
+		catch (Exception ex)
+		{
+			logger.LogError(ex, "LogOn:{logOn} Mesaage:This game wager cannot be found.({command})",
+				DateTime.Now.ToString("o"),
+				command);
+			throw;
+		}
 
 		if (info == null)
 		{

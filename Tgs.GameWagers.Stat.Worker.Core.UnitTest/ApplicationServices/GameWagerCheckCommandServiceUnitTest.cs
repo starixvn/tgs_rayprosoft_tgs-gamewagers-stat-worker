@@ -63,7 +63,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			CreatedOn: command.CreatedOn,
 			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"),
 			UpdatedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
-		_ = fakeGameWagersClient.GetAsync(
+		_ = fakeGameWagersClient.GameWagerFirstGetAsync(
 			Arg.Is(command.GameProviderId),
 			Arg.Is(command.GameId),
 			Arg.Is(command.WalletId),
@@ -123,7 +123,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			ExternalWagerId: "PG-1762394359405350912",
 			 CreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"));
 
-		_ = fakeGameWagersClient.GetAsync(
+		_ = fakeGameWagersClient.GameWagerFirstGetAsync(
 			Arg.Is(command.GameProviderId),
 			Arg.Is(command.GameId),
 			Arg.Is(command.WalletId),
@@ -198,7 +198,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			CreatedOn: command.CreatedOn,
 			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"),
 			UpdatedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
-		_ = fakeGameWagersClient.GetAsync(
+		_ = fakeGameWagersClient.GameWagerFirstGetAsync(
 			Arg.Is(command.GameProviderId),
 			Arg.Is(command.GameId),
 			Arg.Is(command.WalletId),
@@ -294,7 +294,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			CreatedOn: command.CreatedOn,
 			ClosedOn: DateTimeOffset.Parse("1970-01-01T08:00:00.000+08:00"),
 			UpdatedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
-		_ = fakeGameWagersClient.GetAsync(
+		_ = fakeGameWagersClient.GameWagerFirstGetAsync(
 			Arg.Is(command.GameProviderId),
 			Arg.Is(command.GameId),
 			Arg.Is(command.WalletId),
