@@ -10,6 +10,7 @@ using OpenTelemetry.Metrics;
 
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Tgs.GameBets.First.Worker.Common;
 using Tgs.GameBets.Worker.Common;
 using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.GameWagers.Stat.Worker.Messages;
@@ -77,7 +78,8 @@ builder.Services
     .AddMessageQueue()
     .AddNatsMessageQueue(config => config
     .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-    .AddHandler<GameBetsWorkerStatMessageHandler>(GameBetsWorkerNatsConst.GameBetsWorkerStat, typeof(GameBetsWorkerStatMessageHandler).FullName!.ToLower())
+	.AddHandler<GameBetsFirstWorkerStatWorkerMessageHandler>(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerStatWorker, typeof(GameBetsFirstWorkerStatWorkerMessageHandler).FullName!.ToLower())
+	.AddHandler<GameBetsWorkerStatMessageHandler>(GameBetsWorkerNatsConst.GameBetsWorkerStat, typeof(GameBetsWorkerStatMessageHandler).FullName!.ToLower())
     .AddHandler<GameWagerPlayerCheckMessageHandler>(GameWagersStatWorkerNatsConst.Check, typeof(GameWagerPlayerCheckMessageHandler).FullName!.ToLower())
     .AddHandler<GameWagerStatMessageHandler>($"gamewagers.stat.worker.{Environment.MachineName}", typeof(GameWagerStatMessageHandler).FullName!.ToLower()))
     .AddNatsGlobPatternExchange("*");
