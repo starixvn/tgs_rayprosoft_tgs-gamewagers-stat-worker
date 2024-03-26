@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Tgs.GameWagers.Client;
-using Tgs.GameWagers.Common;
+using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
@@ -9,20 +8,20 @@ namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 internal class GameWagerCheckCommandService(
 	ILogger<GameWagerCheckCommandService> logger,
 	TimeProvider timeProvider,
-	IGameWagersClient gameWagersClient,
+	IGameBetFirstRepository repository,
 	ICommandService<GameWagerDataCommand> service) : ICommandService<GameWagerCheckCommand>
 {
 	public async ValueTask ExecuteAsync(GameWagerCheckCommand command, CancellationToken cancellationToken = default)
 	{
-		GameWagerFirstInfo? info;
+		GameBetFirstInfo? info;
 		try
 		{
-			info = await gameWagersClient.GameWagerFirstGetAsync(
+			info = await repository.GetAsync(
 			   gameProviderId: command.GameProviderId,
 			   gameId: command.GameId,
 			   walletId: command.WalletId,
-			   externalWagerId: command.ExternalWagerId,
-			   createdOn: command.CreatedOn,
+			   externalBetId: command.ExternalBetId,
+			   externalCreatedOn: command.ExternalCreatedOn,
 			   cancellationToken: cancellationToken)
 			   .ConfigureAwait(false);
 		}
@@ -50,20 +49,10 @@ internal class GameWagerCheckCommandService(
 		{
 			logger.LogWarning("LogOn:{logOn} Mesaage:This game wager({wagerId}) has been settled for more than 45 days.({totalDays})",
 				DateTime.Now.ToString("o"),
-				info.WagerId,
+				info.ExternalBetId,
 				difference.TotalDays);
 
-			throw new Exception($"This game bet({info.WagerId}) has been settled for more than 45 days.({difference.TotalDays})");
-		}
-
-		if (info.ClosedState != GameWagers.Common.Enums.ClosedState.Closed)
-		{
-			logger.LogWarning("LogOn:{logOn} Mesaage:This game wager{wagerId} has not been settled yet.({closedState})",
-				DateTime.Now.ToString("o"),
-				info.WagerId,
-				info.ClosedState);
-
-			throw new Exception($"This game wager{info.WagerId} has not been settled yet.({info.ClosedState})");
+			throw new Exception($"This game bet({info.ExternalBetId}) has been settled for more than 45 days.({difference.TotalDays})");
 		}
 
 		await service.ExecuteAsync(
@@ -76,7 +65,7 @@ internal class GameWagerCheckCommandService(
 			   PlayerCode: info.PlayerCode,
 			   WalletId: info.WalletId,
 			   ExternalRoundId: info.ExternalRoundId,
-			   ExternalWagerId: info.ExternalWagerId,
+			   ExternalBetId: info.ExternalBetId,
 			   CurrencyRatio: info.CurrencyRatio,
 			   Bet: info.Bet,
 			   ValidBet: info.ValidBet,

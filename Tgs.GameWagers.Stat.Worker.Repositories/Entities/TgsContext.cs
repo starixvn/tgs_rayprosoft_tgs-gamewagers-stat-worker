@@ -14,6 +14,8 @@ public partial class TgsContext : DbContext
     {
     }
 
+    public virtual DbSet<GameBetFirst> GameBetFirsts { get; set; }
+
     public virtual DbSet<GameWagerStatClose> GameWagerStatCloses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +27,7 @@ public partial class TgsContext : DbContext
             .HasPostgresExtension("pg_trgm")
             .HasPostgresExtension("uuid-ossp");
 
+        modelBuilder.ApplyConfiguration(new Configurations.GameBetFirstConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.GameWagerStatCloseConfiguration());
         OnModelCreatingPartial(modelBuilder);
     }

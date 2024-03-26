@@ -10,9 +10,6 @@ data:
         "LogLevel": {
           "Default": "Warning"
         }
-      },
-      "GameWagersStatWorkerConnectionStrings": {
-        "GameWagersClientBaseUrl": "http://game-gamewagers"
       }
     }
   otel-collector-config.yaml: |

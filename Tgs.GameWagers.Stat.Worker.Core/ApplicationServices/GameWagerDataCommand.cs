@@ -8,7 +8,7 @@ public record GameWagerDataCommand(
 	string PlayerCode,
 	Guid WalletId,
 	string ExternalRoundId,
-	string ExternalWagerId,
+	string ExternalBetId,
 	decimal CurrencyRatio,
 	decimal Bet,
 	decimal ValidBet,
