@@ -5,6 +5,7 @@ using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
+
 public class GameWagerCheckCommandServiceUnitTest
 {
 	[Fact]

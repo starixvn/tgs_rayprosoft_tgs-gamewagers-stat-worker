@@ -9,6 +9,7 @@ internal class GameWagerStatCloseBiddingRepository(
 	IDatabase database) : IGameWagerStatCloseBiddingRepository
 {
 	private readonly GameWagersStatWorkerSettingsOptions _gameWagersStatWorkerSettings = options.Value;
+
 	public async ValueTask<string> BiddingAsync(string playerCode, string token, CancellationToken cancellationToken = default)
 	{
 		var redisKey = GetKey(playerCode);

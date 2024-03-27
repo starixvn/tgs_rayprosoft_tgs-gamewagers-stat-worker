@@ -3,6 +3,7 @@ using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Controllers;
+
 [Route("[controller]")]
 [ApiController]
 public class TriggerController : ControllerBase

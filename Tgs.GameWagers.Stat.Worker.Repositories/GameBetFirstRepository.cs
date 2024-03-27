@@ -4,6 +4,7 @@ using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.GameWagers.Stat.Worker.Entities;
 
 namespace Tgs.GameWagers.Stat.Worker.Repositories;
+
 internal class GameBetFirstRepository(
 	TgsContext context) : IGameBetFirstRepository
 {

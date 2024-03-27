@@ -1,6 +1,7 @@
 ﻿using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
+
 internal class GameWagerPlayerCheckCommandService(
 	IGameWagerStatCloseQueueRepository gameWagerStatCloseQueueRepository,
 	ICommandService<GameWagerBiddingCommand> service) : ICommandService<GameWagerPlayerCheckCommand>

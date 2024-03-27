@@ -5,6 +5,7 @@ using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
+
 public class GameWagerBiddingCommandServiceUnitTest
 {
 	[Fact]

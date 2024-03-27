@@ -2,6 +2,7 @@
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
+
 internal class GameWagerDataCommandService(
 	IStatisticalTimeUtnsil utnsil,
 	IGameWagerStatCloseQueueRepository queueRepository,
