@@ -22,7 +22,8 @@ public class GameBetsFirstWorkerStatWorkerMessageHandler(
 				WalletId = data.WalletId.ToGuid(),
 				data.ExternalRoundId,
 				data.ExternalBetId,
-				ExternalCreatedOn = data.ExternalCreatedOn.ToDateTimeOffset()
+				ExternalCreatedOn = data.ExternalCreatedOn.ToDateTimeOffset(),
+				ClosedOn = data.ClosedOn.ToDateTimeOffset()
 			});
 
 		return service.ExecuteAsync(
