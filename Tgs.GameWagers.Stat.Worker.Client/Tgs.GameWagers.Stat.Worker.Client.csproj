@@ -7,7 +7,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Raypro</Authors>
 		<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-gamewagers-stat-worker</PackageProjectUrl>
 		<RepositoryUrl>https://gitlab.com/rayprosoft/tgs-gamewagers-stat-worker.git</RepositoryUrl>
