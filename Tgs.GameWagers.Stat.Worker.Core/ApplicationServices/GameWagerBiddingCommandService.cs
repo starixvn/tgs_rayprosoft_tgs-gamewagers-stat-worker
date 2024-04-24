@@ -20,12 +20,26 @@ internal class GameWagerBiddingCommandService(
 
 		var publishSubject = string.IsNullOrWhiteSpace(token) ?
 			throw new Exception($"The bidding process failed for this player.({command.PlayerCode})")
-			: $"gamewagers.stat.worker.{token}";
+			: $"gamewagers.stat.worker.command.{token}";
 
 		var message = new GameWagersStatWorkerMessage
 		{
 			PlayerCode = command.PlayerCode
 		};
+
+		await messageSender.PublishAsync(
+			subject: publishSubject,
+			data: message,
+			cancellationToken: cancellationToken).ConfigureAwait(false);
+
+		logger.LogInformation("LogOn:{logOn} Subject:{subject} Message:This message has been published.({message})",
+			DateTime.Now.ToString("u"),
+			publishSubject,
+			message);
+
+		publishSubject = string.IsNullOrWhiteSpace(token) ?
+			throw new Exception($"The bidding process failed for this player.({command.PlayerCode})")
+			: $"gamewagers.stat.worker.expiry.{token}";
 
 		await messageSender.PublishAsync(
 			subject: publishSubject,

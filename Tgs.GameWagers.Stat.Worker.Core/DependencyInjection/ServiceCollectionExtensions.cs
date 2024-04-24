@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
 		.RegisterAllServiceUtilityTypes(
 			Assembly.GetExecutingAssembly(),
 			ServiceLifetime.Transient)
+		.AddSingleton(TimeProvider.System)
 		.AddSingleton<IStatisticalTimeUtnsil, StatisticalTimeUtnsil>()
 		.AddSingleton<IGameWagerStatDispatcher, GameWagerStatDispatcher>();
 }

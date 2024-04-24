@@ -6,11 +6,13 @@ using Tgs.GameWagers.Stat.Worker.Entities;
 namespace Tgs.GameWagers.Stat.Worker.Repositories;
 
 internal class GameBetFirstRepository(
+	TimeProvider timeProvider,
 	TgsContext context) : IGameBetFirstRepository
 {
 	public async ValueTask<GameBetFirstInfo?> GetAsync(Guid gameProviderId, int gameId, Guid walletId, string externalBetId, DateTimeOffset externalCreatedOn, CancellationToken cancellationToken = default)
 		=> await context.GameBetFirsts
-		.Where(gbs => gbs.ExternalCreatedOn >= externalCreatedOn.UtcDateTime.AddDays(-7) &&
+		.Where(gbs => gbs.ExternalCreatedOn >= externalCreatedOn.UtcDateTime.AddDays(-3) &&
+			gbs.ExternalCreatedOn < timeProvider.GetUtcNow().UtcDateTime &&
 			gbs.GameProviderId == gameProviderId &&
 			gbs.GameId == gameId &&
 			gbs.WalletId == walletId &&

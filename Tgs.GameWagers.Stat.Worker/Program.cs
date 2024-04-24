@@ -79,7 +79,8 @@ builder.Services
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
 	.AddHandler<GameBetsFirstWorkerStatWorkerMessageHandler>(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerStatWorker, typeof(GameBetsFirstWorkerStatWorkerMessageHandler).FullName!.ToLower())
 	.AddHandler<GameWagerPlayerCheckMessageHandler>(GameWagersStatWorkerNatsConst.Check, typeof(GameWagerPlayerCheckMessageHandler).FullName!.ToLower())
-	.AddHandler<GameWagerStatMessageHandler>($"gamewagers.stat.worker.{Environment.MachineName}", typeof(GameWagerStatMessageHandler).FullName!.ToLower()))
+	.AddHandler<GameWagerStatMessageHandler>($"gamewagers.stat.worker.command.{Environment.MachineName}", typeof(GameWagerStatMessageHandler).FullName!.ToLower())
+	.AddHandler<GameWagerStatExpiryMessageHandler>($"gamewagers.stat.worker.expiry.{Environment.MachineName}", typeof(GameWagerStatExpiryMessageHandler).FullName!.ToLower()))
 	.AddNatsGlobPatternExchange("*");
 
 builder.Services

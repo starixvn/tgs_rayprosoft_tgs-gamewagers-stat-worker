@@ -35,7 +35,17 @@ public class GameWagerBiddingCommandServiceUnitTest
 		_ = fakeMessageSender
 			.Received(1)
 			.PublishAsync(
-			subject: Arg.Is($"gamewagers.stat.worker.{token}"),
+			subject: Arg.Is($"gamewagers.stat.worker.command.{token}"),
+			data: Arg.Is(new GameWagersStatWorkerMessage
+			{
+				PlayerCode = command.PlayerCode
+			}),
+			Arg.Any<CancellationToken>());
+
+		_ = fakeMessageSender
+			.Received(1)
+			.PublishAsync(
+			subject: Arg.Is($"gamewagers.stat.worker.expiry.{token}"),
 			data: Arg.Is(new GameWagersStatWorkerMessage
 			{
 				PlayerCode = command.PlayerCode
@@ -70,7 +80,17 @@ public class GameWagerBiddingCommandServiceUnitTest
 		_ = fakeMessageSender
 			.Received(0)
 			.PublishAsync(
-			subject: Arg.Is($"gamewagers.stat.worker.{token}"),
+			subject: Arg.Is($"gamewagers.stat.worker.command.{token}"),
+			data: Arg.Is(new GameWagersStatWorkerMessage
+			{
+				PlayerCode = command.PlayerCode
+			}),
+			Arg.Any<CancellationToken>());
+
+		_ = fakeMessageSender
+			.Received(0)
+			.PublishAsync(
+			subject: Arg.Is($"gamewagers.stat.worker.expiry.{token}"),
 			data: Arg.Is(new GameWagersStatWorkerMessage
 			{
 				PlayerCode = command.PlayerCode

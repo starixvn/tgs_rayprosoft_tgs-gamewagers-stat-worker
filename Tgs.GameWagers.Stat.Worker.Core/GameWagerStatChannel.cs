@@ -84,7 +84,7 @@ internal class GameWagerStatChannel(
 
 	public void ExtendExpiry()
 	{
-		_ = Interlocked.Exchange(ref _expiry, 610);
+		_ = Interlocked.Exchange(ref _expiry, options.Value.ChannelExpiry);
 	}
 
 	public ValueTask DisposeAsync()
