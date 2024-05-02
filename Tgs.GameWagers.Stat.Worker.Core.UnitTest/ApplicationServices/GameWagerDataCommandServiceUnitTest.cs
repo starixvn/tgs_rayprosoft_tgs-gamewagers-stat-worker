@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging.Abstractions;
-using NSubstitute;
-using Tgs.GameWagers.Stat.Worker.Common.Protos;
+﻿using NSubstitute;
 using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.ServiceUtility;
-using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
 public class GameWagerDataCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();

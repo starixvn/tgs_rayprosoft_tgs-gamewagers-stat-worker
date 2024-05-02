@@ -9,7 +9,7 @@ namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
 public class GameWagerBiddingCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeLog = NullLogger<GameWagerBiddingCommandService>.Instance;
 		var fakeGameWagerStatCloseBiddingRepository = Substitute.For<IGameWagerStatCloseBiddingRepository>();
@@ -54,7 +54,7 @@ public class GameWagerBiddingCommandServiceUnitTest
 	}
 
 	[Fact]
-	public async void The_bidding_process_failed_for_this_player()
+	public async Task The_bidding_process_failed_for_this_player()
 	{
 		var fakeLog = NullLogger<GameWagerBiddingCommandService>.Instance;
 		var fakeGameWagerStatCloseBiddingRepository = Substitute.For<IGameWagerStatCloseBiddingRepository>();

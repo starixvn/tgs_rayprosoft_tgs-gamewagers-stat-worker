@@ -9,7 +9,7 @@ namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
 public class GameWagerCheckCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
 		var fakeTimeProvider = Substitute.For<TimeProvider>();
@@ -98,7 +98,7 @@ public class GameWagerCheckCommandServiceUnitTest
 	}
 
 	[Fact]
-	public async void This_game_wager_cannot_be_found()
+	public async Task This_game_wager_cannot_be_found()
 	{
 		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
 		var fakeTimeProvider = Substitute.For<TimeProvider>();
@@ -137,7 +137,7 @@ public class GameWagerCheckCommandServiceUnitTest
 	}
 
 	[Fact]
-	public async void This_game_bet_has_been_settled_for_more_than_45_days()
+	public async Task This_game_bet_has_been_settled_for_more_than_45_days()
 	{
 		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
 		var fakeTimeProvider = Substitute.For<TimeProvider>();
