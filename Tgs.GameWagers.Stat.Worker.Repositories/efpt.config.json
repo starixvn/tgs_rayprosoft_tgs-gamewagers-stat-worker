@@ -2,7 +2,6 @@
   "CodeGenerationMode": 4,
   "ContextClassName": "TgsContext",
   "ContextNamespace": "Entities",
-  "DefaultDacpacSchema": null,
   "FilterSchemas": true,
   "IncludeConnectionString": false,
   "ModelNamespace": "Entities",
@@ -20,15 +19,11 @@
   "T4TemplatePath": null,
   "Tables": [
     {
-      "Name": "dbo.game_bet_firsts",
-      "ObjectType": 0
-    },
-    {
       "Name": "dbo.game_wager_stat_closes",
       "ObjectType": 0
     }
   ],
-  "UiHint": ".tgs",
+  "UiHint": null,
   "UncountableWords": null,
   "UseBoolPropertiesWithoutDefaultSql": true,
   "UseDatabaseNames": false,
@@ -46,6 +41,7 @@
   "UseNoObjectFilter": false,
   "UseNodaTime": false,
   "UseNullableReferences": true,
+  "UsePrefixNavigationNaming": false,
   "UseSchemaFolders": true,
   "UseSchemaNamespaces": false,
   "UseSpatial": false,

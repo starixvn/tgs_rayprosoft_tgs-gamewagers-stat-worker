@@ -4,6 +4,7 @@ using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Worker.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
+
 public class GameWagerStatCloseCommandServiceUnitTest
 {
 	[Fact]
