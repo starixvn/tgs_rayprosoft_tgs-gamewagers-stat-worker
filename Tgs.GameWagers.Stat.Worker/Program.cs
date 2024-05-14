@@ -10,7 +10,6 @@ using OpenTelemetry.Metrics;
 
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Tgs.GameBets.First.Worker.Common;
 using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.GameWagers.Stat.Worker.Messages;
 using Tgs.MessageQueue.Nats.Serializers;
@@ -77,7 +76,7 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<GameBetsFirstWorkerStatWorkerMessageHandler>(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerStatWorker, typeof(GameBetsFirstWorkerStatWorkerMessageHandler).FullName!.ToLower())
+	.AddHandler<GameBetsWorkerStatWorkerMessageHandler>(Tgs.GameBets.Worker.Common.GameBetsWorkerNatsConst.GameBetsWorkerAddPublish, typeof(GameBetsWorkerStatWorkerMessageHandler).FullName!.ToLower())
 	.AddHandler<GameWagerPlayerCheckMessageHandler>(GameWagersStatWorkerNatsConst.Check, typeof(GameWagerPlayerCheckMessageHandler).FullName!.ToLower())
 	.AddHandler<GameWagerStatMessageHandler>($"gamewagers.stat.worker.command.{Environment.MachineName}", typeof(GameWagerStatMessageHandler).FullName!.ToLower())
 	.AddHandler<GameWagerStatExpiryMessageHandler>($"gamewagers.stat.worker.expiry.{Environment.MachineName}", typeof(GameWagerStatExpiryMessageHandler).FullName!.ToLower()))

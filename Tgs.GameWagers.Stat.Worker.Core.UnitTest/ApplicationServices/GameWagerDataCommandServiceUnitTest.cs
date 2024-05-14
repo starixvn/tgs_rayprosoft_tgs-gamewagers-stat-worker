@@ -4,12 +4,12 @@ using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
+
 public class GameWagerDataCommandServiceUnitTest
 {
 	[Fact]
 	public async Task Normal_Process()
 	{
-
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
 		var fakeGameWagerStatCloseQueueRepository = Substitute.For<IGameWagerStatCloseQueueRepository>();
 		var fakeService = Substitute.For<ICommandService<GameWagerBiddingCommand>>();

@@ -15,7 +15,6 @@ public static class ServiceCollectionExtensions
 		=> services
 		.AddDbContext<TgsContext>(dbContextOptions)
 		.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>()
-		.AddTransient<IGameBetFirstRepository, GameBetFirstRepository>()
 		.AddSingleton<IGameWagerStatCloseBiddingRepository>(sp => ActivatorUtilities.CreateInstance<GameWagerStatCloseBiddingRepository>(sp, redisDatabaseResolver(sp)))
 		.AddSingleton<IGameWagerStatCloseQueueRepository>(sp => ActivatorUtilities.CreateInstance<GameWagerStatCloseQueueRepository>(sp, redisDatabaseResolver(sp)));
 }

@@ -13,34 +13,18 @@ public class GameWagerCheckCommandServiceUnitTest
 	{
 		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
 		var fakeTimeProvider = Substitute.For<TimeProvider>();
-		var fakeRepository = Substitute.For<IGameBetFirstRepository>();
 		var fakeService = Substitute.For<ICommandService<GameWagerDataCommand>>();
 
 		var command = new GameWagerCheckCommand(
 			GameProviderId: Guid.NewGuid(),
 			GameId: 1,
-			WalletId: Guid.NewGuid(),
-			ExternalBetId: "PG-1762394359405350912",
-			ExternalCreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"));
-
-		var info = new GameBetFirstInfo(
-			Id: Guid.NewGuid(),
-			GameBetId: Guid.NewGuid(),
-			GameProviderId: command.GameProviderId,
-			GameProviderConfigurationId: Guid.NewGuid(),
-			GameId: command.GameId,
 			ResellerId: Guid.NewGuid(),
 			LicenseeId: Guid.NewGuid(),
 			BrandId: Guid.NewGuid(),
 			PlayerCode: "4ucmqplxb029",
-			CurrencyCode: "CNY",
-			WalletId: command.WalletId,
-			ExternalRoundId: command.ExternalBetId,
-			ExternalBetId: command.ExternalBetId,
-			ExternalCreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalClosedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalPayoffOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalResettleOn: DateTimeOffset.Parse("1970-01-01T08:00:00.000+08:00"),
+			WalletId: Guid.NewGuid(),
+			ExternalRoundId: "1762394359405350912",
+			ExternalBetId: "PG-1762394359405350912",
 			CurrencyRatio: 1.0m,
 			Bet: 0.5m,
 			ValidBet: 0.5m,
@@ -48,18 +32,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			Commission: 0.0m,
 			Turnover: 0.5m,
 			WinLoss: 2.3m,
-			Jackpot: 0.0m,
-			CreatedOn: command.ExternalCreatedOn,
-			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"),
-			UpdatedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
-		_ = fakeRepository.GetAsync(
-			Arg.Is(command.GameProviderId),
-			Arg.Is(command.GameId),
-			Arg.Is(command.WalletId),
-			Arg.Is(command.ExternalBetId),
-			Arg.Is(command.ExternalCreatedOn),
-			Arg.Any<CancellationToken>())
-			.Returns(info);
+			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
 
 		var currentTime = DateTimeOffset.Parse("2024-02-27T16:29:53.000+08:00");
 		_ = fakeTimeProvider.GetUtcNow()
@@ -68,7 +41,6 @@ public class GameWagerCheckCommandServiceUnitTest
 		var sut = new GameWagerCheckCommandService(
 			fakeLog,
 			fakeTimeProvider,
-			fakeRepository,
 			fakeService);
 
 		await sut.ExecuteAsync(command);
@@ -77,62 +49,23 @@ public class GameWagerCheckCommandServiceUnitTest
 			.Received(1)
 			.ExecuteAsync(
 			command: Arg.Is(new GameWagerDataCommand(
-				GameProviderId: info.GameProviderId,
-				GameId: info.GameId,
-				ResellerId: info.ResellerId,
-				LicenseeId: info.LicenseeId,
-				BrandId: info.BrandId,
-				PlayerCode: info.PlayerCode,
-				WalletId: info.WalletId,
-				ExternalRoundId: info.ExternalRoundId,
-				ExternalBetId: info.ExternalBetId,
-				CurrencyRatio: info.CurrencyRatio,
-				Bet: info.Bet,
-				ValidBet: info.ValidBet,
-				Settle: info.Settle,
-				Commission: info.Commission,
-				Turnover: info.Turnover,
-				WinLoss: info.WinLoss,
-				ClosedOn: info.ClosedOn)),
-		   cancellationToken: Arg.Any<CancellationToken>());
-	}
-
-	[Fact]
-	public async Task This_game_wager_cannot_be_found()
-	{
-		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
-		var fakeTimeProvider = Substitute.For<TimeProvider>();
-		var fakeRepository = Substitute.For<IGameBetFirstRepository>();
-		var fakeService = Substitute.For<ICommandService<GameWagerDataCommand>>();
-
-		var command = new GameWagerCheckCommand(
-			GameProviderId: Guid.NewGuid(),
-			GameId: 1,
-			WalletId: Guid.NewGuid(),
-			ExternalBetId: "PG-1762394359405350912",
-			ExternalCreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"));
-
-		_ = fakeRepository.GetAsync(
-			Arg.Is(command.GameProviderId),
-			Arg.Is(command.GameId),
-			Arg.Is(command.WalletId),
-			Arg.Is(command.ExternalBetId),
-			Arg.Is(command.ExternalCreatedOn),
-			Arg.Any<CancellationToken>())
-			.Returns((GameBetFirstInfo?)null);
-
-		var sut = new GameWagerCheckCommandService(
-			fakeLog,
-			fakeTimeProvider,
-			fakeRepository,
-			fakeService);
-
-		_ = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => sut.ExecuteAsync(command).AsTask());
-
-		await fakeService
-			.Received(0)
-			.ExecuteAsync(
-			command: Arg.Any<GameWagerDataCommand>(),
+				GameProviderId: command.GameProviderId,
+				GameId: command.GameId,
+				ResellerId: command.ResellerId,
+				LicenseeId: command.LicenseeId,
+				BrandId: command.BrandId,
+				PlayerCode: command.PlayerCode,
+				WalletId: command.WalletId,
+				ExternalRoundId: command.ExternalRoundId,
+				ExternalBetId: command.ExternalBetId,
+				CurrencyRatio: command.CurrencyRatio,
+				Bet: command.Bet,
+				ValidBet: command.ValidBet,
+				Settle: command.Settle,
+				Commission: command.Commission,
+				Turnover: command.Turnover,
+				WinLoss: command.WinLoss,
+				ClosedOn: command.ClosedOn)),
 		   cancellationToken: Arg.Any<CancellationToken>());
 	}
 
@@ -141,34 +74,18 @@ public class GameWagerCheckCommandServiceUnitTest
 	{
 		var fakeLog = NullLogger<GameWagerCheckCommandService>.Instance;
 		var fakeTimeProvider = Substitute.For<TimeProvider>();
-		var fakeRepository = Substitute.For<IGameBetFirstRepository>();
 		var fakeService = Substitute.For<ICommandService<GameWagerDataCommand>>();
 
 		var command = new GameWagerCheckCommand(
 			GameProviderId: Guid.NewGuid(),
 			GameId: 1,
-			WalletId: Guid.NewGuid(),
-			ExternalBetId: "PG-1762394359405350912",
-			ExternalCreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"));
-
-		var info = new GameBetFirstInfo(
-			Id: Guid.NewGuid(),
-			GameBetId: Guid.NewGuid(),
-			GameProviderId: command.GameProviderId,
-			GameProviderConfigurationId: Guid.NewGuid(),
-			GameId: command.GameId,
 			ResellerId: Guid.NewGuid(),
 			LicenseeId: Guid.NewGuid(),
 			BrandId: Guid.NewGuid(),
 			PlayerCode: "4ucmqplxb029",
-			CurrencyCode: "CNY",
-			WalletId: command.WalletId,
-			ExternalRoundId: command.ExternalBetId,
-			ExternalBetId: command.ExternalBetId,
-			ExternalCreatedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalClosedOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalPayoffOn: DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00"),
-			ExternalResettleOn: DateTimeOffset.Parse("1970-01-01T08:00:00.000+08:00"),
+			WalletId: Guid.NewGuid(),
+			ExternalRoundId: "1762394359405350912",
+			ExternalBetId: "PG-1762394359405350912",
 			CurrencyRatio: 1.0m,
 			Bet: 0.5m,
 			ValidBet: 0.5m,
@@ -176,18 +93,7 @@ public class GameWagerCheckCommandServiceUnitTest
 			Commission: 0.0m,
 			Turnover: 0.5m,
 			WinLoss: 2.3m,
-			Jackpot: 0.0m,
-			CreatedOn: command.ExternalCreatedOn,
-			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"),
-			UpdatedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
-		_ = fakeRepository.GetAsync(
-			Arg.Is(command.GameProviderId),
-			Arg.Is(command.GameId),
-			Arg.Is(command.WalletId),
-			Arg.Is(command.ExternalBetId),
-			Arg.Is(command.ExternalCreatedOn),
-			Arg.Any<CancellationToken>())
-			.Returns(info);
+			ClosedOn: DateTimeOffset.Parse("2024-02-27T16:29:11.267+08:00"));
 
 		var currentTime = DateTimeOffset.Parse("2024-02-27T16:28:53.000+08:00").AddDays(46);
 		_ = fakeTimeProvider.GetUtcNow()
@@ -196,7 +102,6 @@ public class GameWagerCheckCommandServiceUnitTest
 		var sut = new GameWagerCheckCommandService(
 			fakeLog,
 			fakeTimeProvider,
-			fakeRepository,
 			fakeService);
 
 		_ = await Assert.ThrowsAsync<Exception>(() => sut.ExecuteAsync(command).AsTask());
@@ -205,23 +110,23 @@ public class GameWagerCheckCommandServiceUnitTest
 			.Received(0)
 			.ExecuteAsync(
 			command: Arg.Is(new GameWagerDataCommand(
-				GameProviderId: info.GameProviderId,
-				GameId: info.GameId,
-				ResellerId: info.ResellerId,
-				LicenseeId: info.LicenseeId,
-				BrandId: info.BrandId,
-				PlayerCode: info.PlayerCode,
-				WalletId: info.WalletId,
-				ExternalRoundId: info.ExternalRoundId,
-				ExternalBetId: info.ExternalBetId,
-				CurrencyRatio: info.CurrencyRatio,
-				Bet: info.Bet,
-				ValidBet: info.ValidBet,
-				Settle: info.Settle,
-				Commission: info.Commission,
-				Turnover: info.Turnover,
-				WinLoss: info.WinLoss,
-				ClosedOn: info.ClosedOn)),
+				GameProviderId: command.GameProviderId,
+				GameId: command.GameId,
+				ResellerId: command.ResellerId,
+				LicenseeId: command.LicenseeId,
+				BrandId: command.BrandId,
+				PlayerCode: command.PlayerCode,
+				WalletId: command.WalletId,
+				ExternalRoundId: command.ExternalRoundId,
+				ExternalBetId: command.ExternalBetId,
+				CurrencyRatio: command.CurrencyRatio,
+				Bet: command.Bet,
+				ValidBet: command.ValidBet,
+				Settle: command.Settle,
+				Commission: command.Commission,
+				Turnover: command.Turnover,
+				WinLoss: command.WinLoss,
+				ClosedOn: command.ClosedOn)),
 		   cancellationToken: Arg.Any<CancellationToken>());
 	}
 }
