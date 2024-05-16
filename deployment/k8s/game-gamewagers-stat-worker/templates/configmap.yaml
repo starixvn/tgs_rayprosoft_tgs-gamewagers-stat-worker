@@ -9,7 +9,7 @@ data:
       "Logging": {
         "LogLevel": {
           "Default": "Warning",
-          "Tgs.GameWagers.Stat.Worker.Messages.GameBetsWorkerStatWorkerMessageHandler": "Information"
+          "Tgs.GameWagers.Stat.Worker.Messages.GameBetsWorkerStatWorkerMessageHandler": "Warning"
         }
       }
     }
