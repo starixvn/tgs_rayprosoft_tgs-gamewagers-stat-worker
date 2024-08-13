@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Tgs.GameWagers.Stat.Worker.Core.ApplicationServices;
-using Tgs.GameWagers.Stat.Worker.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Worker.Core.UnitTest.ApplicationServices;
