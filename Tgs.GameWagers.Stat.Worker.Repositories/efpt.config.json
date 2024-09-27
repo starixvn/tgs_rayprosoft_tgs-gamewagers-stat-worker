@@ -1,49 +1,49 @@
 ﻿{
-  "CodeGenerationMode": 4,
-  "ContextClassName": "TgsContext",
-  "ContextNamespace": "Entities",
-  "FilterSchemas": true,
-  "IncludeConnectionString": false,
-  "ModelNamespace": "Entities",
-  "OutputContextPath": "Entities",
-  "OutputPath": "Entities\\Models",
-  "PreserveCasingWithRegex": true,
-  "ProjectRootNamespace": "Tgs.GameWagers.Stat.Worker",
-  "Schemas": [
-    {
-      "Name": "dbo"
-    }
-  ],
-  "SelectedHandlebarsLanguage": 0,
-  "SelectedToBeGenerated": 0,
-  "T4TemplatePath": null,
-  "Tables": [
-    {
-      "Name": "dbo.game_wager_stat_closes",
-      "ObjectType": 0
-    }
-  ],
-  "UiHint": null,
-  "UncountableWords": null,
-  "UseBoolPropertiesWithoutDefaultSql": true,
-  "UseDatabaseNames": false,
-  "UseDateOnlyTimeOnly": false,
-  "UseDbContextSplitting": true,
-  "UseDecimalDataAnnotationForSprocResult": true,
-  "UseFluentApiOnly": true,
-  "UseHandleBars": false,
-  "UseHierarchyId": false,
-  "UseInflector": true,
-  "UseLegacyPluralizer": false,
-  "UseManyToManyEntity": false,
-  "UseNoDefaultConstructor": true,
-  "UseNoNavigations": false,
-  "UseNoObjectFilter": false,
-  "UseNodaTime": false,
-  "UseNullableReferences": true,
-  "UsePrefixNavigationNaming": false,
-  "UseSchemaFolders": true,
-  "UseSchemaNamespaces": false,
-  "UseSpatial": false,
-  "UseT4": false
+   "CodeGenerationMode": 4,
+   "ContextClassName": "TgsContext",
+   "ContextNamespace": "Entities",
+   "FilterSchemas": true,
+   "IncludeConnectionString": false,
+   "ModelNamespace": "Entities",
+   "OutputContextPath": "Entities",
+   "OutputPath": "Entities\\Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Tgs.GameWagers.Stat.Worker",
+   "Schemas": [
+      {
+         "Name": "dbo"
+      }
+   ],
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "dbo.game_wager_stat_closes",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": true,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": true,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": true,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": true,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": true,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
 }
